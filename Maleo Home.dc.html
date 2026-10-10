@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#ffffff;}
+*{box-sizing:border-box;}
+a{color:#05170c;text-decoration:none;}
+a:hover{color:#8a7445;}
+::selection{background:#c8b07a;color:#05170c;}
+</style>
+<link rel="preload" as="image" href="assets/exterior-dusk.jpg">
+<link rel="preload" as="image" href="assets/dining-palm.jpg">
+<script src="maleo-a11y.js"></script>
+</helmet>
+<div dir="rtl" style="font-family:'Heebo',sans-serif;color:#1a1f1a;background:#ffffff;">
+
+<sc-if value="{{ isMob }}" hint-placeholder-val="{{ false }}">
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;padding:0 12px;background:{{ headerBg }};color:{{ headerFg }};transition:background .35s,color .35s;backdrop-filter:{{ headerBlur }};">
+  <div style="display:flex;justify-content:flex-start;">
+    <button onClick="{{ toggleMenu }}" aria-label="תפריט" style="width:44px;height:44px;background:none;border:0;padding:0;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px;color:inherit;">
+      <span style="display:block;width:22px;height:1px;background:currentColor;"></span>
+      <span style="display:block;width:22px;height:1px;background:currentColor;"></span>
+    </button>
+  </div>
+  <a href="#top" style="display:flex;align-items:center;justify-content:center;min-height:44px;padding-left:.42em;font-family:'Heebo',sans-serif;font-weight:400;letter-spacing:.42em;font-size:17px;color:inherit;direction:ltr;">MALEO</a>
+  <div style="display:flex;justify-content:flex-end;">
+    <a href="#book" style="white-space:nowrap;display:flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border:1px solid #c8b07a;color:inherit;font-size:13px;letter-spacing:.04em;">הזמנה</a>
+  </div>
+</header>
+</sc-if>
+<sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:{{ headerPad }};background:{{ headerBg }};color:{{ headerFg }};transition:background .35s,color .35s,padding .35s;backdrop-filter:{{ headerBlur }};">
+  <a href="#top" style="display:flex;align-items:center;min-height:44px;font-family:'Heebo',sans-serif;font-weight:400;letter-spacing:.42em;font-size:18px;color:inherit;direction:ltr;">MALEO</a>
+  <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+    <nav style="display:flex;gap:34px;font-size:15px;letter-spacing:.04em;white-space:nowrap;">
+      <a href="Maleo%20About.dc.html" style="color:inherit;">אודות</a>
+      <a href="Maleo%20Menu.dc.html" style="color:inherit;">תפריט</a>
+      <a href="Maleo%20Events.dc.html" style="color:inherit;">אירועים</a>
+      <a href="Maleo%20Careers.dc.html" style="color:inherit;">דרושים</a>
+      <a href="Maleo%20Contact.dc.html" style="color:inherit;">צור קשר</a>
+    </nav>
+  </sc-if>
+  <div style="display:flex;align-items:center;gap:18px;">
+    <div style="display:flex;gap:6px;font-family:'Heebo',sans-serif;font-size:12px;letter-spacing:.12em;direction:ltr;">
+      <button onClick="{{ setHe }}" style="background:none;border:0;padding:4px;min-width:36px;min-height:44px;cursor:pointer;color:inherit;opacity:{{ heOp }};font:inherit;">עב</button>
+      <span style="opacity:.4;">/</span>
+      <button onClick="{{ setEn }}" style="background:none;border:0;padding:4px;min-width:36px;min-height:44px;cursor:pointer;color:inherit;opacity:{{ enOp }};font:inherit;">EN</button>
+    </div>
+    <a href="#book" style="white-space:nowrap;display:flex;align-items:center;min-height:44px;padding:0 22px;border:1px solid #c8b07a;color:inherit;font-size:14px;letter-spacing:.06em;" style-hover="background:#c8b07a;color:#05170c;">הזמנת מקום</a>
+  </div>
+</header>
+</sc-if>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div dir="rtl" style="position:fixed;inset:0;z-index:60;background:#05170c;color:#ffffff;display:flex;flex-direction:column;overflow-y:auto;isolation:isolate;font-family:'Heebo',sans-serif;">
+    <div aria-hidden="true" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:url('assets/lounge-evening.jpg') center/cover no-repeat;opacity:.12;"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 55% at 50% 45%,rgba(200,176,122,.12),rgba(5,23,12,0) 70%);"></div>
+      <img src="assets/rose-a.png" alt="" style="position:absolute;right:-6%;bottom:-2px;width:min(34%,160px);height:auto;max-height:85%;object-fit:contain;object-position:bottom;opacity:.14;">
+        <img src="assets/rose-b.png" alt="" style="position:absolute;left:-8%;bottom:-2px;width:min(42%,190px);height:auto;max-height:85%;object-fit:contain;object-position:bottom;opacity:.1;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;padding:0 12px;flex:none;">
+      <div style="display:flex;justify-content:flex-start;"><button onClick="{{ toggleMenu }}" aria-label="סגירה" style="position:relative;width:44px;height:44px;background:none;border:0;padding:0;cursor:pointer;"><span style="position:absolute;left:12px;top:21px;width:20px;height:1px;background:#ffffff;transform:rotate(45deg);"></span><span style="position:absolute;left:12px;top:21px;width:20px;height:1px;background:#ffffff;transform:rotate(-45deg);"></span></button></div>
+      <span style="padding-left:.42em;letter-spacing:.42em;font-size:17px;direction:ltr;">MALEO</span>
+      <div style="display:flex;justify-content:flex-start;gap:2px;font-size:12px;letter-spacing:.12em;direction:ltr;"><button onClick="{{ setHe }}" style="background:none;border:0;padding:0;min-width:40px;min-height:44px;cursor:pointer;color:#ffffff;opacity:{{ heOp }};font:inherit;">עב</button><button onClick="{{ setEn }}" style="background:none;border:0;padding:0;min-width:40px;min-height:44px;cursor:pointer;color:#ffffff;opacity:{{ enOp }};font:inherit;">EN</button></div>
+    </div>
+    <div style="height:1px;margin:0 20px;background:linear-gradient(to left,rgba(200,176,122,0),rgba(200,176,122,.35),rgba(200,176,122,0));flex:none;"></div>
+    <nav style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:28px 0;">
+      <a href="#top" onClick="{{ toggleMenu }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:8px 0;min-width:200px;color:#ffffff;">
+        <span style="font-size:30px;font-weight:200;line-height:1.1;letter-spacing:.02em;color:#c8b07a;">עמוד הבית</span>
+      </a>
+      <a href="Maleo%20About.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:8px 0;min-width:200px;color:#ffffff;">
+        <span style="font-size:30px;font-weight:200;line-height:1.1;letter-spacing:.02em;color:#ffffff;">אודות</span>
+      </a>
+      <a href="Maleo%20Menu.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:8px 0;min-width:200px;color:#ffffff;">
+        <span style="font-size:30px;font-weight:200;line-height:1.1;letter-spacing:.02em;color:#ffffff;">תפריט</span>
+      </a>
+      <a href="Maleo%20Events.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:8px 0;min-width:200px;color:#ffffff;">
+        <span style="font-size:30px;font-weight:200;line-height:1.1;letter-spacing:.02em;color:#ffffff;">אירועים</span>
+      </a>
+      <a href="Maleo%20Careers.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:8px 0;min-width:200px;color:#ffffff;">
+        <span style="font-size:30px;font-weight:200;line-height:1.1;letter-spacing:.02em;color:#ffffff;">דרושים</span>
+      </a>
+      <a href="Maleo%20Contact.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:8px 0;min-width:200px;color:#ffffff;">
+        <span style="font-size:30px;font-weight:200;line-height:1.1;letter-spacing:.02em;color:#ffffff;">צור קשר</span>
+      </a>
+    </nav>
+    <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:20px;padding:0 28px 36px;">
+      <span aria-hidden="true" style="display:block;width:1px;height:32px;background:linear-gradient(to bottom,rgba(200,176,122,0),#c8b07a);"></span>
+      <a href="#book" onClick="{{ toggleMenu }}" style="display:flex;justify-content:center;align-items:center;width:100%;max-width:300px;min-height:52px;border:1px solid #c8b07a;color:#c8b07a;font-size:15px;letter-spacing:.14em;" style-hover="background:#c8b07a;color:#05170c;">הזמנת מקום</a>
+      <div style="display:flex;gap:12px;justify-content:center;"><a href="#" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid rgba(200,176,122,.35);border-radius:50%;" style-hover="border-color:#c8b07a;"><img src="https://cdn.simpleicons.org/instagram/c8b07a" alt="" style="width:16px;height:16px;"></a><a href="#" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid rgba(200,176,122,.35);border-radius:50%;" style-hover="border-color:#c8b07a;"><img src="https://cdn.simpleicons.org/facebook/c8b07a" alt="" style="width:16px;height:16px;"></a><a href="#" aria-label="Waze" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid rgba(200,176,122,.35);border-radius:50%;" style-hover="border-color:#c8b07a;"><img src="https://cdn.simpleicons.org/waze/c8b07a" alt="" style="width:16px;height:16px;"></a></div>
+      <span style="font-size:11px;letter-spacing:.3em;color:rgba(200,176,122,.75);direction:ltr;">JERUSALEM · ROSE GARDEN</span>
+    </div>
+  </div>
+</sc-if>
+
+<!-- OPENING 1a — המסע -->
+<sc-if value="{{ isSeq }}" hint-placeholder-val="{{ true }}">
+  <section id="top" ref="{{ seqRef }}" data-screen-label="Opening 1a" style="position:relative;height:{{ seqH }};background:#030f08;">
+    <div style="position:sticky;top:0;height:{{ panelH }};overflow:hidden;">
+      <video data-cover="1" src="assets/cover.mp4" muted="" playsinline="" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:{{ vidScale }};background:#030f08;"></video>
+      <div data-night="1" style="position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,176,96,.55) 0%,rgba(120,70,40,.75) 45%,rgba(8,14,28,.95) 100%);mix-blend-mode:multiply;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 45%);"></div>
+      <div style="position:absolute;right:{{ sidePad }};left:{{ sidePad }};bottom:{{ capBottom }};color:#ffffff;display:flex;flex-direction:column;align-items:{{ fAlign }};text-align:{{ tAlign }};gap:10px;opacity:{{ capOp }};">
+        <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+          <img src="assets/maleo-bird-beige.png" alt="" style="width:64px;height:64px;margin-bottom:6px;">
+        </sc-if>
+        <span style="font-family:'Heebo',sans-serif;font-size:13px;letter-spacing:.3em;color:#c8b07a;direction:ltr;text-align:{{ tAlign }};">JERUSALEM · ROSE GARDEN</span>
+        <span style="font-family:'Heebo',sans-serif;font-weight:300;font-size:clamp(30px,4.4vw,64px);line-height:1.05;direction:ltr;text-align:{{ tAlign }};letter-spacing:-.01em;">Welcome to Maleo</span>
+      </div>
+      <div style="position:absolute;left:{{ sidePad }};top:50%;transform:translateY(-50%);width:1px;height:120px;background:rgba(255,255,255,.25);opacity:{{ capOp }};display:{{ progDisp }};">
+        <span style="position:absolute;top:0;left:0;width:1px;height:{{ pPct }};background:#c8b07a;"></span>
+      </div>
+      <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);color:#ffffff;font-size:13px;letter-spacing:.2em;opacity:{{ hintOp }};display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <span style="direction:ltr;">SCROLL TO ENTER</span><span style="display:block;width:1px;height:40px;background:#c8b07a;"></span>
+      </div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.45) 0%,rgba(0,0,0,.18) 65%,rgba(0,0,0,0) 100%);opacity:{{ endOp }};pointer-events:{{ endPe }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;text-align:center;padding:24px;">
+        <div role="img" aria-label="MALEO" style="position:relative;width:clamp(180px,20vw,260px);aspect-ratio:780/720;transform:{{ endLift }};filter:drop-shadow(0 2px 14px rgba(0,0,0,.35));">
+          <video data-logo-src="1" src="assets/logo-bird-peck.mp4" muted="" loop="" playsinline="" autoplay="" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
+          <canvas data-logo-bird="1" width="420" height="420" style="position:absolute;left:23.4%;top:4.2%;width:54.7%;height:59.3%;"></canvas>
+          <img src="assets/maleo-wordmark.png" alt="" style="position:absolute;left:0;top:66.7%;width:100%;height:auto;">
+        </div>
+        <p style="margin:0;font-family:'Heebo',sans-serif;font-weight:300;font-size:clamp(22px,2.2vw,32px);color:#ffffff;">מסעדת שף בלב גן הוורדים, ירושלים</p>
+        <a href="#book" style="display:flex;align-items:center;min-height:52px;padding:0 40px;background:#c8b07a;color:#05170c;font-size:15px;letter-spacing:.08em;" style-hover="background:#ffffff;color:#05170c;">הזמנת מקום</a>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<!-- 2 היכרות -->
+<section id="about" ref="{{ introRef }}" data-screen-label="Intro" style="padding:clamp(32px,3.5vw,56px) {{ sidePad }};display:grid;grid-template-columns:{{ introColsI }};gap:clamp(24px,3vw,48px);align-items:center;">
+  <div style="display:flex;flex-direction:column;gap:22px;align-items:{{ fAlign }};text-align:{{ tAlign }};">
+    <span style="font-family:'Heebo',sans-serif;font-size:12px;letter-spacing:.32em;color:#8a7445;direction:ltr;text-align:{{ tAlign }};">01 — MALEO</span>
+    <h1 style="margin:0;font-family:'Heebo',sans-serif;font-weight:200;font-size:clamp(34px,4vw,62px);line-height:1.12;color:#05170c;">ירושלים. גן הוורדים.<br>מטבח עם סיפור.</h1>
+    <p style="margin:0;max-width:640px;font-size:clamp(17px,1.3vw,19px);line-height:1.75;color:#3d433b;text-wrap:pretty;">מסעדת שף בשרית של קבוצת ג'קו, שנבנתה לאורך שנים בלב גן הוורדים. מטבח פיוז'ן אסייתי שמתחיל בחומר הגלם: נתחים מוקפדים, דגים נאים וסושי ברמה גבוהה. והירוק של ירושלים, ממש מעבר לחלון.</p>
+  </div>
+  <div style="position:relative;aspect-ratio:1/1;width:min(100%,66vh,620px);height:auto;justify-self:center;clip-path:{{ introClip }};background:#ffffff;overflow:hidden;isolation:isolate;">
+    <video src="assets/maleo-bird-white.mp4" poster="assets/illu-w1.jpg" autoplay="" muted="" loop="" playsinline="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:brightness(1.06) contrast(1.08);"></video>
+    <div style="position:absolute;inset:0;background:#163820;mix-blend-mode:screen;pointer-events:none;"></div>
+  </div>
+</section>
+
+<!-- 3 האוכל -->
+<section id="food" ref="{{ foodRef }}" data-screen-label="Food" style="position:relative;background:#05170c;color:#ffffff;">
+  <div style="position:relative;overflow:hidden;display:flex;align-items:center;padding:clamp(40px,4.5vw,64px) 0;">
+    <div style="display:flex;gap:16px;align-items:center;padding:0 {{ sidePad }};transform:{{ foodX }};will-change:transform;">
+      <div style="flex:none;width:{{ foodTitleW }};display:flex;flex-direction:column;justify-content:center;gap:24px;align-items:{{ fAlign }};text-align:{{ tAlign }};">
+        <span style="font-family:'Heebo',sans-serif;font-size:12px;letter-spacing:.32em;color:#c8b07a;direction:ltr;text-align:{{ tAlign }};">02 — THE PLACE</span>
+        <h2 style="margin:0;font-family:'Heebo',sans-serif;font-weight:300;font-size:clamp(34px,3.6vw,56px);line-height:1.05;">להרגיש<br>את Maleo</h2>
+        <p style="margin:0;max-width:320px;font-size:17px;line-height:1.7;color:#c9d3c6;">אבן ירושלמית, אור של צהריים וערב בין הקירות.</p>
+      </div>
+      <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="6">
+        <figure style="flex:none;margin:0;width:{{ g.w }};height:{{ g.h }};align-self:{{ g.align }};position:relative;overflow:hidden;background:#0a1a10;">
+          <div style="position:absolute;top:0;bottom:0;left:-12%;right:-12%;background:url('{{ g.src }}') center/cover no-repeat;transform:{{ g.tf }};will-change:transform;"></div>
+          <figcaption style="position:absolute;bottom:16px;right:18px;font-size:12px;letter-spacing:.24em;color:#ffffff;direction:ltr;text-shadow:0 1px 8px rgba(0,0,0,.5);">{{ g.cap }}</figcaption>
+        </figure>
+      </sc-for>
+      <a href="Maleo%20Menu.dc.html" style="flex:none;width:{{ foodTitleW }};height:{{ sqH }};display:flex;align-items:center;justify-content:center;font-family:'Heebo',sans-serif;font-weight:300;font-size:clamp(22px,2vw,30px);color:#ffffff;border:1px solid rgba(200,176,122,.5);" style-hover="background:#c8b07a;color:#05170c;">לתפריט המלא ←</a>
+    </div>
+  </div>
+</section>
+
+<!-- 4 השף -->
+<section data-screen-label="Chef" style="display:grid;grid-template-columns:{{ chefCols }};">
+  <div style="order:2;display:flex;align-items:center;justify-content:center;padding:{{ chefImgPad }};background:#ffffff;">
+    <div style="position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#05170c;">
+      <img src="assets/chef-kitchen.jpg" alt="המטבח הפתוח של מאלאו" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55% center;filter:brightness(.78) saturate(.92);">
+      <div style="position:absolute;inset:0;background:rgba(5,23,12,.18);"></div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;justify-content:center;align-items:{{ fAlign }};text-align:{{ tAlign }};gap:{{ chefGap }};padding:{{ chefTxtPad }};">
+    <span style="font-family:'Heebo',sans-serif;font-size:12px;letter-spacing:.32em;color:#8a7445;direction:ltr;text-align:{{ tAlign }};">03 — THE CHEF</span>
+    <h2 style="margin:0;font-family:'Heebo',sans-serif;font-weight:300;font-size:clamp(40px,4.8vw,76px);line-height:1.02;color:#05170c;text-wrap:balance;">מטבח שמתחיל<br>בחומר גלם</h2>
+    <p style="margin:0;max-width:420px;font-size:18px;line-height:1.75;color:#3d433b;text-wrap:pretty;">טכניקה אסייתית, שוק ירושלמי ואש פתוחה. כל מנה נבנית סביב חומר גלם אחד ונותנת לו להוביל.</p>
+    <a href="#about" style="align-self:{{ fAlign }};display:flex;align-items:center;gap:12px;min-height:44px;font-size:15px;letter-spacing:.06em;border-bottom:1px solid #05170c;">הכירו את Maleo ←</a>
+  </div>
+</section>
+
+<!-- 6 אירועים -->
+<section id="events" data-screen-label="Events" style="position:relative;min-height:clamp(420px,62vh,620px);overflow:hidden;display:flex;align-items:center;color:#ffffff;background:#030f08;">
+  <video src="assets/cover.mp4" autoplay="" muted="" loop="" playsinline="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
+  <div style="position:absolute;inset:0;background:linear-gradient(to left,rgba(3,15,8,.82) 0%,rgba(3,15,8,.55) 55%,rgba(3,15,8,.3) 100%);"></div>
+  <div style="position:relative;width:100%;padding:clamp(56px,7vw,96px) {{ sidePad }};display:flex;flex-direction:column;align-items:{{ fAlign }};text-align:{{ tAlign }};gap:26px;max-width:760px;">
+    <span style="font-size:12px;letter-spacing:.32em;color:#c8b07a;direction:ltr;text-align:{{ tAlign }};">05 — EVENTS</span>
+    <h2 style="margin:0;font-weight:300;font-size:clamp(38px,4.4vw,68px);line-height:1;">אירועים ב־Maleo</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:{{ fAlign }};gap:10px;">
+      <span style="padding:10px 18px;border:1px solid rgba(255,255,255,.35);font-size:15px;">אירועים פרטיים</span>
+      <span style="padding:10px 18px;border:1px solid rgba(255,255,255,.35);font-size:15px;">אירועים עסקיים</span>
+      <span style="padding:10px 18px;border:1px solid rgba(255,255,255,.35);font-size:15px;">ארוחות מיוחדות</span>
+      <span style="padding:10px 18px;border:1px solid rgba(255,255,255,.35);font-size:15px;">אירוח קבוצות</span>
+    </div>
+    <a href="Maleo%20Events.dc.html" style="align-self:{{ fAlign }};display:flex;align-items:center;min-height:52px;padding:0 32px;background:#c8b07a;color:#05170c;font-size:15px;letter-spacing:.06em;margin-top:6px;" style-hover="background:#ffffff;color:#05170c;">לאירועים פרטיים</a>
+  </div>
+</section>
+
+<!-- 8 אינסטגרם -->
+<section ref="{{ igRef }}" data-screen-label="Instagram" style="padding:clamp(64px,7vw,104px) {{ sidePad }};display:flex;flex-direction:column;gap:32px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:nowrap;">
+    <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+      <div style="width:{{ igAv }};height:{{ igAv }};border-radius:50%;background:#05170c;display:flex;align-items:center;justify-content:center;flex:none;"><img src="assets/maleo-logo-transparent.png" alt="" style="width:40px;height:auto;"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <span style="font-size:{{ igHandle }};font-weight:500;color:#05170c;direction:ltr;text-align:right;">@maleo.jerusalem</span>
+        <span style="font-size:14px;color:#5b6157;">עקבו אחרינו באינסטגרם</span>
+      </div>
+    </div>
+    <a href="#" style="flex:none;display:flex;align-items:center;min-height:44px;padding:0 {{ igBtnPad }};background:#05170c;color:#ffffff;font-size:14px;letter-spacing:.06em;" style-hover="background:#c8b07a;color:#05170c;">Follow ↗</a>
+  </div>
+  <div style="display:grid;grid-template-columns:{{ igCols }};gap:6px;">
+    <sc-for list="{{ ig }}" as="g" hint-placeholder-count="6">
+      <a href="#" style="position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#05170c url('{{ g.src }}') center/cover no-repeat;" style-hover="opacity:.85;"></a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- 7 הזמנה -->
+<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;isolation:isolate;background:#05170c;color:#ffffff;padding:clamp(64px,7vw,104px) {{ sidePad }};display:flex;flex-direction:{{ mCol }};justify-content:space-between;align-items:center;text-align:{{ tAlign }};gap:24px;flex-wrap:wrap;">
+  <img src="assets/maleo-logo-transparent.png" alt="" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:clamp(200px,18vw,300px);height:auto;z-index:-1;opacity:.12;pointer-events:none;">
+  <div style="display:flex;flex-direction:column;gap:6px;">
+    <h2 style="margin:0;font-weight:300;font-size:clamp(26px,2.4vw,36px);line-height:1.1;">השולחן שלכם מחכה</h2>
+    <p style="margin:0;font-size:15px;color:#c9d3c6;">צהריים וערב, עד 8 סועדים. לקבוצות, דברו איתנו.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+    <a href="#" style="display:flex;align-items:center;min-height:48px;padding:0 32px;background:#c8b07a;color:#05170c;font-size:15px;letter-spacing:.06em;" style-hover="background:#ffffff;color:#05170c;">למערכת ההזמנות ↗</a>
+    <a href="#" style="display:flex;align-items:center;min-height:48px;padding:0 24px;border:1px solid rgba(255,255,255,.4);color:#ffffff;font-size:15px;" style-hover="border-color:#c8b07a;color:#c8b07a;">WhatsApp</a>
+  </div>
+</section>
+
+<!-- 9 Footer -->
+<footer id="contact" data-screen-label="Footer" style="background:#ffffff;color:#3d433b;border-top:1px solid #e6e8e3;padding:{{ ftPad }};display:flex;flex-direction:column;gap:{{ ftGap }};">
+  <div style="display:flex;flex-direction:{{ mCol }};justify-content:space-between;align-items:{{ fAlignTop }};text-align:{{ tAlign }};gap:{{ ftGap }};flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;align-items:{{ fAlign }};gap:{{ ftInGap }};"><img src="assets/maleo-logo-dark.png" alt="MALEO" style="width:{{ ftLogo }};height:auto;"><div style="display:flex;gap:10px;align-items:center;">
+      <a href="#" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #d6dad2;border-radius:50%;" style-hover="border-color:#c8b07a;"><img src="https://cdn.simpleicons.org/instagram/05170c" alt="" style="width:18px;height:18px;"></a>
+      <a href="#" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #d6dad2;border-radius:50%;" style-hover="border-color:#c8b07a;"><img src="https://cdn.simpleicons.org/facebook/05170c" alt="" style="width:18px;height:18px;"></a>
+      <a href="#" aria-label="Waze" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #d6dad2;border-radius:50%;" style-hover="border-color:#c8b07a;"><img src="https://cdn.simpleicons.org/waze/05170c" alt="" style="width:18px;height:18px;"></a>
+    </div></div>
+    <div style="display:grid;grid-template-columns:{{ ftCols }};gap:{{ ftColGap }};flex:{{ ftFlex }};min-width:0;max-width:820px;width:100%;font-size:{{ ftFs }};line-height:1.7;">
+      <div style="display:flex;flex-direction:column;"><span style="font-family:'Heebo',sans-serif;font-size:11px;letter-spacing:.3em;color:#8a7445;margin-bottom:10px;direction:ltr;text-align:{{ tAlign }};">ADDRESS</span><span>גן הוורדים, קריית הלאום</span><span>ירושלים</span></div>
+      <div style="display:flex;flex-direction:column;"><span style="font-family:'Heebo',sans-serif;font-size:11px;letter-spacing:.3em;color:#8a7445;margin-bottom:10px;direction:ltr;text-align:{{ tAlign }};">HOURS</span><span>א׳–ה׳ <span style="direction:ltr;unicode-bidi:isolate;">12:00–23:30</span></span><span>מוצ״ש מצאת השבת</span></div>
+      <div style="display:flex;flex-direction:column;"><span style="font-family:'Heebo',sans-serif;font-size:11px;letter-spacing:.3em;color:#8a7445;margin-bottom:10px;direction:ltr;text-align:{{ tAlign }};">CONTACT</span><span style="direction:ltr;text-align:{{ tAlign }};">02-000-0000</span><a href="#" style="color:#3d433b;padding:8px 0;align-self:{{ fAlign }};">WhatsApp</a></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;border-top:1px solid #e6e8e3;padding-top:{{ ftLegalPt }};font-size:{{ ftLegalFs }};">
+    <div style="display:flex;gap:4px 22px;flex-wrap:wrap;align-items:center;justify-content:center;color:#7a8076;">
+      <a href="Maleo%20Accessibility.dc.html" style="color:#7a8076;padding:12px 0;">הצהרת נגישות</a><a href="Maleo%20Privacy.dc.html" style="color:#7a8076;padding:12px 0;">מדיניות פרטיות</a><a href="Maleo%20Terms.dc.html" style="color:#7a8076;padding:12px 0;">תנאי שימוש</a><span>© 2026 MALEO</span>
+    </div>
+    </div>
+</footer>
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const cl=(v)=>Math.max(0,Math.min(1,v));
+const ease=(t)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const FR=[['גן הוורדים','ROSE GARDEN','exterior-dusk'],['נכנסים פנימה','THE DINING ROOM','dining-palm'],['קיר היין','THE WINE WALL','wine-wall'],['אור של צהריים','MIDDAY LIGHT','dining-sun'],['ערב ב־Maleo','EVENING','lounge-evening']];
+const TONES=[['#1c3a22','#21412a'],['#2a2a20','#302f25'],['#1d3326','#233a2c'],['#22301f','#283725'],['#141f19','#19251e']];
+const GAL=[['exterior-dusk','ROSE GARDEN',1.25,0.78,'center'],['dining-palm','DINING ROOM',0.8,0.62,'flex-start'],['wine-wall','WINE WALL',0.95,0.7,'flex-end'],['lounge-evening','EVENING',1.1,0.58,'center'],['dining-sun','MIDDAY',0.75,0.74,'flex-start'],['booths-evening','THE BOOTHS',1,0.64,'flex-end']];
+const DISHES=[['טאטאקי פילה בקר','פונזו, צ\'ילי כבוש, שאלוט פריך','BEEF TATAKI'],['סשימי לוקוס','יוזו, שמן זית ירוק, שיסו','GROUPER SASHIMI'],['צלעות עגל','גלייז מיסו שחור, שומשום קלוי','MISO VEAL RIBS'],['ניגירי אנטריקוט','צרוב בלהבה, שום קונפי, מלח עשן','SEARED NIGIRI']];
+const EVENTS=[['אירועים פרטיים','PRIVATE EVENTS'],['אירועים עסקיים','BUSINESS EVENTS'],['ארוחות מיוחדות','CHEF\'S TABLE'],['אירוח קבוצות','GROUPS']];
+const IG=[['DISH',300,380,0],['PEOPLE',240,300,60],['KITCHEN',340,260,20],['WINE',220,320,90],['GARDEN',380,460,0],['EVENING',260,340,50],['DISH',300,260,110],['GARDEN',240,360,30],['PEOPLE',320,300,70]];
+const OPTS=[['1a','המסע','sequence'],['1b','החלון','window'],['1c','הסרט','film']];
+class Component extends DCLogic {
+  state={p:0,introP:0,foodP:0,igP:0,past:false,w:typeof window!=='undefined'?window.innerWidth:1440,h:typeof window!=='undefined'?window.innerHeight:900,menu:null,lang:'he',open:null,ev:0};
+  seqRef=React.createRef();introRef=React.createRef();foodRef=React.createRef();igRef=React.createRef();
+  componentDidMount(){
+    this.onS=()=>this.measure();
+    document.addEventListener('scroll',this.onS,{capture:true,passive:true});window.addEventListener('resize',this.onS);window.addEventListener('load',this.onS);
+    this.ro=new ResizeObserver(this.onS);this.ro.observe(document.documentElement);
+    this.vt=null;
+    const hush=()=>document.querySelectorAll('video').forEach(v=>{if(!v.muted||v.volume){v.muted=true;v.defaultMuted=true;v.volume=0;}});
+    hush();document.addEventListener('play',hush,true);this.hushI=setInterval(hush,250);
+    this.autoV=setInterval(()=>{document.querySelectorAll('video:not([data-cover])').forEach(v=>{v.muted=true;v.loop=true;v.playsInline=true;if(v.paused&&v.readyState>=2)v.play().catch(()=>{});});},500);
+    const tick=()=>{this.vraf=requestAnimationFrame(tick);const v=document.querySelector('video[data-cover]');if(!v)return;
+      if(!v.dataset.prime){v.dataset.prime='1';v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');v.preload='auto';const pr=v.play();if(pr&&pr.then)pr.then(()=>v.pause()).catch(()=>{});try{v.load&&v.readyState===0&&v.load();}catch(e){}}
+      if(!v.duration)return;
+      if(!v.paused)v.pause();
+      if(!v.dataset.blob&&v.readyState>=1){v.dataset.blob='1';fetch(v.currentSrc||v.src).then(r=>r.blob()).then(b=>{v.src=URL.createObjectURL(b);}).catch(()=>{});}
+      const D=v.duration-0.04,S=Math.min(5.5,D),E=4.6,L=(D-S)+E;
+      const target=cl(this.state.p/0.84)*L;if(this.vt===null)this.vt=target;this.vt+=(target-this.vt)*0.2;
+      const real=this.vt<(D-S)?S+this.vt:this.vt-(D-S);
+      if(Math.abs(v.currentTime-real)>0.012&&!v.seeking)v.currentTime=real;
+      const g=1;
+      v.style.filter=g>0.01?`brightness(${(1-0.4*g).toFixed(3)}) contrast(${(1+0.1*g).toFixed(3)}) saturate(${(1-0.15*g).toFixed(3)}) sepia(${(0.2*g).toFixed(3)})`:'none';
+      const n=document.querySelector('[data-night]');if(n)n.style.opacity=(g*0.85).toFixed(3);};
+    tick();
+    this.logoImg=new Image();this.logoImg.src='assets/maleo-bird-black.png';
+    const key=()=>{this.lraf=requestAnimationFrame(key);const c=document.querySelector('canvas[data-logo-bird]');if(!c)return;
+      if(this.state.p<0.8&&this.keyed)return;
+      const v=document.querySelector('video[data-logo-src]');const src=v&&v.readyState>=2?v:(this.logoImg.complete&&this.logoImg.naturalWidth?this.logoImg:null);if(!src)return;
+      const sw=src.videoWidth||src.naturalWidth,sh=src.videoHeight||src.naturalHeight,s=Math.min(sw,sh);
+      const x=c.getContext('2d',{willReadFrequently:true});x.clearRect(0,0,c.width,c.height);x.drawImage(src,(sw-s)/2,(sh-s)/2,s,s,0,0,c.width,c.height);
+      const d=x.getImageData(0,0,c.width,c.height),a=d.data;
+      for(let i=0;i<a.length;i+=4){const m=Math.max(a[i],a[i+1],a[i+2]);const al=m<28?0:Math.min(255,(m-28)*1.6);a[i]=200;a[i+1]=176;a[i+2]=122;a[i+3]=al;}
+      x.putImageData(d,0,0);this.keyed=true;};
+    key();
+    this.timers=[0,100,400,1200].map(t=>setTimeout(()=>this.measure(),t));
+    this.poll=setInterval(()=>{if(window.scrollY!==this.lastY||innerWidth!==this.state.w){this.lastY=window.scrollY;this.measure();}},150);
+  }
+  componentWillUnmount(){document.removeEventListener('scroll',this.onS,{capture:true});window.removeEventListener('resize',this.onS);window.removeEventListener('load',this.onS);this.ro&&this.ro.disconnect();(this.timers||[]).forEach(clearTimeout);clearInterval(this.poll);cancelAnimationFrame(this.vraf);cancelAnimationFrame(this.lraf);clearInterval(this.autoV);clearInterval(this.hushI);}
+  pin(el){if(!el)return 0;const r=el.getBoundingClientRect();return cl(-r.top/Math.max(1,r.height-innerHeight));}
+  view(el){if(!el)return 0;const r=el.getBoundingClientRect();return cl((innerHeight-r.top)/(innerHeight+r.height));}
+  measure(){
+    const $=(s)=>document.querySelector(s);
+    const s=$('[data-screen-label^="Opening"]'),fo=$('[data-screen-label="Food"]'),ab=$('[data-screen-label="Intro"]'),ig=$('[data-screen-label="Instagram"]');
+    const sr=s&&s.getBoundingClientRect();const past=sr&&sr.height>0?sr.bottom<80:false;
+    this.setState({p:this.pin(s),foodP:fo?(()=>{const r=fo.getBoundingClientRect();return cl((innerHeight-r.bottom)/Math.max(1,innerHeight-r.height));})():0,introP:ab?cl((innerHeight-ab.getBoundingClientRect().top)/(innerHeight*0.9)):0,igP:this.view(ig),past,w:innerWidth,h:innerHeight});
+  }
+  renderVals(){
+    const q=new URLSearchParams(location.search);
+    const opening='sequence';
+    const menuOpen=this.state.menu??(q.get('menu')==='1');
+    const {p,w,h}=this.state;const mob=w<1000;
+    const seqEnd=opening==='film'?1:0.84;
+    const f=cl(p/seqEnd)*(FR.length-1);const ci=Math.min(FR.length-1,Math.round(f));
+    const frames=FR.map(([he,en,img],i)=>{
+      const local=cl(f-i+1);const t=TONES[i];
+      return {n:String(i+1).padStart(2,'0'),he,en,
+        bg:`${t[0]} url('assets/${img}.jpg') center/cover no-repeat`,
+        op:i===0?1:local,sc:`scale(${(1.12-0.12*cl(f-i+1)*0.5-0.06*cl(f-i)).toFixed(4)})`,
+        tickW:i===ci?'36px':'14px',tickOp:i===ci?1:0.4,filmOp:Math.abs(i-f)<0.6?1:0.55};
+    });
+    const endOp=opening==='film'?0:cl((p-0.86)/0.08);
+    // window aperture
+    const at=ease(cl(p/0.3));const apWpx=(mob?0.62:0.3)*w+(1-(mob?0.62:0.3))*w*at;
+    // film
+    const filmWv=mob?78:46;const filmTotal=6*filmWv+5*2+(mob?10:8.4);
+    const filmShift=Math.max(0,filmTotal-100)*cl(p/0.95);
+    // food
+    const pad=mob?20:64;const dW=w*(mob?0.78:0.34);const tW=w*(mob?0.72:0.24);
+    const sq=mob?Math.min(w*0.72,h*0.5):Math.min(h*0.46,w*0.3);const gW=GAL.map(()=>sq);const fTotal=tW*2+gW.reduce((a,b)=>a+b,0)+(GAL.length+1)*16+pad*2;const fShift=Math.max(0,fTotal-w)*this.state.foodP;
+    const dark=opening==='film'?true:this.state.past;
+    return {
+      isSeq:opening==='sequence',seqH:w<760?'230svh':(mob?'165vh':'260vh'),panelH:w<760?'100svh':'100vh',isWin:opening==='window',isFilm:opening==='film',
+      isDesk:!mob,isMob:mob,isPhone:w<760,progDisp:w<760?'none':'block',ftFlex:w<760?'none':'1 1 300px',chefImgPad:w<760?'0 20px 48px':(mob?'48px 20px':'clamp(48px,6vw,96px) 64px'),chefTxtPad:w<760?'48px 20px 28px':(mob?'56px 20px':'clamp(56px,8vw,128px) 64px'),chefGap:w<760?'20px':'32px',ftPad:w<760?'40px 16px 24px':(mob?'64px 20px 40px':'clamp(64px,8vw,120px) 64px 40px'),ftGap:w<760?'28px':'64px',ftInGap:w<760?'16px':'22px',ftLogo:w<760?'110px':'150px',ftCols:w<760?'repeat(3,minmax(0,1fr))':'repeat(auto-fit,minmax(150px,1fr))',ftColGap:w<760?'12px':'32px 40px',ftFs:w<760?'13px':'16px',ftLegalPt:w<760?'12px':'28px',ftLegalFs:w<760?'13px':'inherit',igAv:w<760?'48px':'64px',igHandle:w<760?'16px':'18px',igBtnPad:w<760?'18px':'26px',tAlign:w<760?'center':'right',fAlign:w<760?'center':'flex-start',fAlignTop:w<760?'center':'flex-start',mCol:w<760?'column':'row',menuOpen,toggleMenu:()=>this.setState({menu:!menuOpen}),
+      seqRef:this.seqRef,introRef:this.introRef,foodRef:this.foodRef,igRef:this.igRef,
+      headerBg:dark?'rgba(255,255,255,.92)':'transparent',headerFg:dark?'#05170c':'#ffffff',headerBlur:dark?'blur(10px)':'none',
+      headerPad:mob?'12px 20px':(dark?'14px 64px':'26px 64px'),
+      heOp:this.state.lang==='he'?1:0.45,enOp:this.state.lang==='en'?1:0.45,
+      setHe:()=>this.setState({lang:'he'}),setEn:()=>this.setState({lang:'en'}),
+      sidePad:mob?'20px':'64px',capBottom:w<760?'128px':(mob?'72px':'64px'),
+      frames,curN:frames[ci].n,curHe:frames[ci].he,
+      capOp:1-endOp,capOp2:cl(at*1.4)*(1-endOp),hintOp:1-cl(p*25),endOp,endPe:endOp>0.5?'auto':'none',
+      vidScale:'none',
+      endLift:`translateY(${((1-endOp)*24).toFixed(1)}px)`,
+      sideOp:1-at,apW:apWpx+'px',apH:(62+38*at)+'vh',apR:`${((1-at)*apWpx/2).toFixed(1)}px ${((1-at)*apWpx/2).toFixed(1)}px 0 0`,
+      filmW:filmWv+'vw',filmX:`translateX(${filmShift.toFixed(2)}vw)`,pPct:(p*100).toFixed(1)+'%',
+      introColsI:mob?'minmax(0,1fr)':'minmax(0,1.15fr) minmax(0,1fr)',introCols2:mob?'minmax(0,1fr)':'minmax(0,520px) auto',introCols:mob?'minmax(0,1fr)':'minmax(0,1.1fr) minmax(0,1fr)',chefCols:mob?'minmax(0,1fr)':'minmax(0,1fr) minmax(0,1fr)',
+      introClip:`inset(${((1-ease(this.state.introP))*14).toFixed(2)}% ${((1-ease(this.state.introP))*18).toFixed(2)}%)`,
+      sqH:sq.toFixed(0)+'px',foodX:`translateX(${fShift.toFixed(1)}px)`,dishW:dW+'px',foodTitleW:tW+'px',
+      gallery:GAL.map(([img,cap,,hh,align],i)=>{const rel=this.state.foodP*(GAL.length+1)-(i+1);return {src:'assets/'+img+'.jpg',cap,w:gW[i].toFixed(0)+'px',h:sq.toFixed(0)+'px',align:'center',tf:`translateX(${(rel*-60).toFixed(1)}px) scale(${(1.08-0.04*Math.min(1,Math.abs(rel))).toFixed(3)})`};}),
+      events:EVENTS.map(([he,en],i)=>({he,n:'0'+(i+1),color:this.state.ev===i?'#05170c':'#8b8d84',op:this.state.ev===i?1:0.4,hover:()=>this.setState({ev:i})})),
+      evLabel:EVENTS[this.state.ev][1],
+      igX:`translateX(${((this.state.igP-0.5)*w*(mob?0.9:0.35)).toFixed(1)}px)`,
+      ig:['wine-wall','lounge-evening','dining-sun','exterior-dusk','booths-evening','dining-palm'].map(n=>({src:'assets/'+n+'.jpg'})),igCols:mob?'repeat(3,minmax(0,1fr))':'repeat(6,minmax(0,1fr))',
+      showSwitch:(this.props.showSwitcher??true)&&!q.get('opening'),
+      opts:OPTS.map(([id,he,k])=>({id,he,bg:opening===k?'#c8b07a':'transparent',fg:opening===k?'#05170c':'#ffffff',pick:()=>{this.setState({open:k});window.scrollTo(0,0);}}))
+    };
+  }
+}
+</script>
+</body>
+</html>
